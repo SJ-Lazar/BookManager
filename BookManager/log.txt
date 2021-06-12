@@ -1,0 +1,8 @@
+2021-06-13 01:44:08.310 +02:00 [INF] Application Started!!!
+2021-06-13 01:44:10.059 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2021-06-13 01:44:10.064 +02:00 [INF] Hosting environment: Development
+2021-06-13 01:44:10.066 +02:00 [INF] Content root path: C:\Users\Lenovo\Desktop\APIS\BookManager\BookManager
+2021-06-13 01:44:10.086 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44336/swagger/index.html  
+2021-06-13 01:44:10.219 +02:00 [INF] Request finished in 130.7222ms 200 text/html;charset=utf-8
+2021-06-13 01:44:10.450 +02:00 [INF] Request starting HTTP/2.0 GET https://localhost:44336/swagger/v1/swagger.json  
+2021-06-13 01:44:10.579 +02:00 [INF] Request finished in 130.0535ms 200 application/json;charset=utf-8
