@@ -25,6 +25,10 @@ namespace BookManager
             services.ConfigureSwagger();
             //Http
             services.AddHttpClient();
+            services.AddHttpClient("meta", c =>
+            {
+                c.BaseAddress = new System.Uri(Configuration.GetValue<string>("MetaAPI"));
+            });
 
             services.AddTransient<IBookRepository, BookRepository>();
         }

@@ -16,11 +16,11 @@ namespace BookManager.Controllers.BookControllers
     [ApiController]
     public class BookController : ControllerBase
     {
-        private  IBookRepository _bookRepository;
+        private IBookRepository _bookRepository;
 
 
         public BookController(IBookRepository bookRepository)
-        {         
+        {
             _bookRepository = bookRepository;
         }
 
@@ -30,5 +30,14 @@ namespace BookManager.Controllers.BookControllers
             var response = await _bookRepository.GetListOfCurrentBestSellers();
             return Ok(response);
         }
+
+        [HttpGet("{isbn}")]
+        public async Task<IActionResult> GetBookByIsbn(string isbn)
+        {
+            var response = await _bookRepository.GetBookDetails(isbn);
+            return Ok(response);
+        }
+
+
     }
 }
