@@ -24,8 +24,13 @@ namespace BookManager.Controllers.BookControllers
             _bookRepository = bookRepository;
         }
 
+
+        /// <summary>
+        /// Get a list of best seller books from nyt/api 
+        /// </summary>
+        /// <returns>BookModel</returns>
         [HttpGet]
-        public async Task<IActionResult> GetBook()
+        public async Task<IActionResult> GetBooks()
         {
             var response = await _bookRepository.GetListOfCurrentBestSellers();
             return Ok(response);
@@ -37,6 +42,8 @@ namespace BookManager.Controllers.BookControllers
             var response = await _bookRepository.GetBookDetails(isbn);
             return Ok(response);
         }
+
+
 
 
     }

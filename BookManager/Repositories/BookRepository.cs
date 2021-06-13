@@ -1,8 +1,6 @@
 ﻿using BookManagerModelsLibrary.BookModels;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
@@ -11,8 +9,11 @@ namespace BookManager.Repositories
 {
     public class BookRepository : IBookRepository
     {
+        //Private Variables
         private readonly IHttpClientFactory _httpClient;
         private readonly ILogger<BookRepository> _log;
+
+        //Constructor
         public BookRepository(IHttpClientFactory httpClient,
                               ILogger<BookRepository> log)
         {
@@ -20,8 +21,10 @@ namespace BookManager.Repositories
             _log = log;
         }
 
+
+        //Methods
         /// <summary>
-        /// Gets A List of Best Sellers Books
+        /// Gets A List of Best Sellers Books.
         /// </summary>
         /// <returns>A BookModel</returns>
         public async Task<BookModel> GetListOfCurrentBestSellers()
@@ -29,30 +32,23 @@ namespace BookManager.Repositories
             BookModel bookModel = new BookModel();
             try
             {
-                var request = new HttpRequestMessage(HttpMethod.Get,
-                      "https://api.nytimes.com/svc/books/v3/lists/current/hardcover-fiction.json?api-key=NwUJgaa7B5baIOBFMDXpXrb1lASXv9y8");
-
-                var client = _httpClient.CreateClient();
-
-                HttpResponseMessage response = await client.SendAsync(request);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    bookModel = await response.Content.ReadFromJsonAsync<BookModel>();
-                }
-                else
-                {
-                    bookModel.status = $"Error occured when getting list of best sellers: {response.ReasonPhrase}";
-                }
-               
+                var client = _httpClient.CreateClient("meta");
+                bookModel = await client.GetFromJsonAsync<BookModel>($"lists/current/hardcover-fiction.json?api-key=NwUJgaa7B5baIOBFMDXpXrb1lASXv9y8");          
             }
             catch (Exception ex)
             {
+                bookModel.status = $"Error occured when retrieving list of book: {ex.Message}";
                 _log.LogError($"{ex.Message}");
             }
             return bookModel;
         }
 
+
+        /// <summary>
+        /// Gets Details of the book.
+        /// </summary>
+        /// <param name="isbn"></param>
+        /// <returns>Review</returns>
         public async Task<Review> GetBookDetails(string isbn)
         {
             Review review = new Review();
@@ -63,7 +59,7 @@ namespace BookManager.Repositories
             }
             catch (Exception ex)
             {
-                review.status = $"Error occured when getting Book: {ex.Message}";
+                review.status = $"Error occured when getting book review: {ex.Message}";
                 _log.LogError($"{ex.Message}");
             }
             return review;

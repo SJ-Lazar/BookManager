@@ -1,5 +1,7 @@
 using BookManager.Extensions;
 using BookManager.Repositories;
+using DinkToPdf;
+using DinkToPdf.Contracts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -23,6 +25,10 @@ namespace BookManager
             services.AddControllers();
             //Swagger
             services.ConfigureSwagger();
+
+            //PDF Generator DinkToPdf
+            services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
+
             //Http
             services.AddHttpClient();
             services.AddHttpClient("meta", c =>
