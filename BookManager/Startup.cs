@@ -1,4 +1,5 @@
 using BookManager.Extensions;
+using BookManager.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -22,6 +23,10 @@ namespace BookManager
             services.AddControllers();
             //Swagger
             services.ConfigureSwagger();
+            //Http
+            services.AddHttpClient();
+
+            services.AddTransient<IBookRepository, BookRepository>();
         }
        
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

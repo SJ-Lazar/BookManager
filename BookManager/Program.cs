@@ -10,9 +10,10 @@ namespace BookManager
     {
         public static void Main(string[] args)
         {
-
+            //Start logging before application host build
             ConfigureLogger();
             Log.Information("Application Started!!!");
+
             try
             {
                 CreateHostBuilder(args).Build().Run();
@@ -33,7 +34,6 @@ namespace BookManager
                 {
                     webBuilder.UseStartup<Startup>().UseSerilog();
                 });
-
 
         /// <summary>
         /// Overide the built in logger with serilog.
