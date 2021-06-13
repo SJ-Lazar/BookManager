@@ -1,4 +1,5 @@
-﻿using BookManager.Services.Pdf.Utility;
+﻿using BookManager.Services.Pdf.PdfActions;
+using BookManager.Services.Pdf.Utility;
 using DinkToPdf;
 using DinkToPdf.Contracts;
 using Microsoft.AspNetCore.Http;
@@ -15,40 +16,18 @@ namespace BookManager.Controllers.PdfGeneratorControllers
     [ApiController]
     public class PdfCreatorController : ControllerBase
     {
-        private IConverter _converter;
-        public PdfCreatorController(IConverter converter)
+        private ICreatePdf _createPdf;
+
+        public PdfCreatorController(ICreatePdf createPdf)
         {
-            _converter = converter;
+            _createPdf = createPdf;
         }
 
         [HttpGet]
         public IActionResult CreatePDF()
         {
-            var globalSettings = new GlobalSettings
-            {
-                ColorMode = ColorMode.Color,
-                Orientation = Orientation.Portrait,
-                PaperSize = PaperKind.A4,
-                Margins = new MarginSettings { Top = 10 },
-                DocumentTitle = "PDF INVOICE",
-                //Out = @"C:\PDFCreator\Invoice.pdf"
-            };
-            var objectSettings = new ObjectSettings
-            {
-                PagesCount = true,
-                HtmlContent = TemplateGenerator.GetHTMLString(),
-                WebSettings = { DefaultEncoding = "utf-8", UserStyleSheet = Path.Combine(Directory.GetCurrentDirectory(), "Assets", "style.css") },
-                HeaderSettings = { FontName = "Arial", FontSize = 9, Right = "Page [page] of [toPage]", Line = true },
-                FooterSettings = { FontName = "Arial", FontSize = 9, Line = true, Center = "Report Footer" }
-            };
-            var pdf = new HtmlToPdfDocument()
-            {
-                GlobalSettings = globalSettings,
-                Objects = { objectSettings }
-            };
-            var file = _converter.Convert(pdf);
-            //return Ok("Successfully created PDF document.");
-            return File(file, "application/pdf");
+            var response = _createPdf.CreatePdfInvoice();
+            return Ok(response);
         }
 
     }
